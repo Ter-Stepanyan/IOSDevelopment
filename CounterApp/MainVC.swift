@@ -8,33 +8,31 @@
 import UIKit
 
 class MainVC: UIViewController, NumberDelegate {
-    
-    @IBOutlet weak var goToEditButton: UIButton!
-    @IBOutlet weak var numberLabel: UILabel!
-    
+
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var numberDisplayLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        numberLabel.sizeToFit()
-        goToEditButton.layer.cornerRadius = 12
+        numberDisplayLabel.sizeToFit()
+        editButton.layer.cornerRadius = 12
     }
-    
-    func passDataBack(_ num: Int) {
-        numberLabel.text = "\(num)"
-    }
-    
-    @IBAction func toEditor(_ sender: Any) {
-        let number = Int(numberLabel.text ?? "0")
-        performSegue(withIdentifier: "toEditor", sender: number)
-    }
-    
-    
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
            if segue.identifier == "toEditor" {
                if let destinationVC = segue.destination as? EditorViewController {
                    destinationVC.delegate = self
-                   destinationVC.num = Int(numberLabel.text ?? "0")
+                   destinationVC.number = Int(numberDisplayLabel.text ?? "0")
                }
            }
        }
+
+    func passDataBack(_ number: Int) {
+        numberDisplayLabel.text = "\(number)"
+    }
+
+    @IBAction func toEditor(_ sender: Any) {
+        let number = Int(numberDisplayLabel.text ?? "0")
+        performSegue(withIdentifier: "toEditor", sender: number)
+    }
 }
